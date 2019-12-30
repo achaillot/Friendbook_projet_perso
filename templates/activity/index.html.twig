@@ -4,23 +4,25 @@
 
 {% block body %}
     <h1>Liste des activités proposées</h1>
-
-        {% for activity in activities %}
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ activity.message }}</h5>
-                    <p class="card-text">{{ activity.name }}</p>
-                    <h6 class="card-title font-italic">{{ activity.response }}</h6>
-                    <a href="{{ path('activity_response', {'id': activity.id}) }}">Répondre</a>
-                    <a href="{{ path('activity_show', {'id': activity.id}) }}">Détail</a>
-                    <a href="{{ path('activity_edit', {'id': activity.id}) }}">Modifer</a>
+    <div class="container">
+        <div class="row">
+            {% for activity in activities %}
+                <div class="card col-6 bg-warning" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ activity.message }}</h5>
+                        <p class="card-text">{{ activity.name }}</p>
+                        <h6 class="card-title font-italic">{{ activity.response }}</h6>
+                        <a href="{{ path('activity_response', {'id': activity.id}) }}">Répondre</a>
+                        <a href="{{ path('activity_show', {'id': activity.id}) }}">Détail</a>
+                        <a href="{{ path('activity_edit', {'id': activity.id}) }}">Modifer</a>
+                    </div>
                 </div>
-            </div>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+        </div>
+    </div>
     <a href="{{ path('activity_new') }}">Ajouter une nouvelle activité</a>
 {% endblock %}

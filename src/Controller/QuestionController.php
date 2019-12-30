@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Activity;
 use App\Entity\Question;
 use App\Form\QuestionType;
-use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +17,13 @@ class QuestionController extends AbstractController
 {
     /**
      * @Route("/", name="question_index", methods={"GET"})
-     * @param QuestionRepository $questionRepository
+     * @param Question $question
      * @return Response
      */
-    public function index(QuestionRepository $questionRepository): Response
+    public function index(Question $question): Response
     {
-        return $this->render('question/index.html.twig', [
-            'questions' => $questionRepository->findAll(),
-        ]);
+        dump($question);
+        return $this->render('question/index.html.twig');
     }
 
     /**
@@ -93,4 +92,30 @@ class QuestionController extends AbstractController
 
         return $this->redirectToRoute('question_index');
     }
+
+    /**
+     * @Route("/{id}/response", name="question_response", methods={"GET","POST"})
+     * @param Request $request
+     * @param Question $question
+     * @param Activity $activity
+     * @return Response
+     */
+    public function response(Request $request, Question $question): Response
+    {
+        $form = $this->createForm(AnswerType::class, $question);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('question_index');
+        }
+
+        return $this->render('question/answer.html.twig', [
+            'question' => $question,
+            'form' => $form->createView(),
+        ]);
+
+    }
+
 }

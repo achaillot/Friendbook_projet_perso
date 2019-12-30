@@ -14,8 +14,8 @@ class QuestionType extends AbstractType
         $builder
             ->add('message')
             ->add('name')
-            ->add('activity')
-            ->add('advice')
+            ->remove('activity')
+            ->remove('advice')
         ;
     }
 

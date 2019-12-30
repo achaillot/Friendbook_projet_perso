@@ -5,33 +5,26 @@
 {% block body %}
     <h1>Questions diverses</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Message</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for question in questions %}
-            <tr>
-                <td>{{ question.id }}</td>
-                <td>{{ question.message }}</td>
-                <td>{{ question.name }}</td>
-                <td>
-                    <a href="{{ path('question_show', {'id': question.id}) }}">show</a>
-                    <a href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('question_new') }}">Create new</a>
+    <div class="container">
+        <div class="row">
+            {% for question in questions %}
+                <div class="card col-6 bg-warning" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ question.message }}</h5>
+                        <p class="card-text">{{ question.name }}</p>
+                        {{ dump(question.activity) }}
+                        <h6 class="card-title font-italic">{{ question.activity}}</h6>
+                        <a href="{{ path('question_response', {'id': question.id}) }}">Répondre</a>
+                        <a href="{{ path('question_show', {'id': question.id}) }}">Détail</a>
+                        <a href="{{ path('question_edit', {'id': question.id}) }}">Modifer</a>
+                    </div>
+                </div>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="{{ path('question_new') }}">Ajouter une nouvelle question</a>
 {% endblock %}

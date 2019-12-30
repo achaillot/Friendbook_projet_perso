@@ -5,23 +5,25 @@
 {% block body %}
     <h1>Conseils/recommandations</h1>
 
-    {% for advice in advices %}
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{ advice.message }}</h5>
-                <p class="card-text">{{ advice.name }}</p>
-                <h6 class="card-title font-italic">{{ advice.response }}</h6>
-                <a href="{{ path('advice_response', {'id': advice.id}) }}">Répondre</a>
-                <a href="{{ path('advice_show', {'id': advice.id}) }}">Détail</a>
-                <a href="{{ path('advice_edit', {'id': advice.id}) }}">Modifer</a>
-            </div>
+    <div class="container">
+        <div class="row">
+                {% for advice in advices %}
+                    <div class="card col-6 bg-warning" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ advice.message }}</h5>
+                            <p class="card-text">{{ advice.name }}</p>
+                            <h6 class="card-title font-italic">{{ advice.response }}</h6>
+                            <a href="{{ path('advice_response', {'id': advice.id}) }}">Répondre</a>
+                            <a href="{{ path('advice_show', {'id': advice.id}) }}">Détail</a>
+                            <a href="{{ path('advice_edit', {'id': advice.id}) }}">Modifer</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="5">no records found</td>
-        </tr>
-    {% endfor %}
-
-    <a href="{{ path('advice_new') }}">Ajouter une nouvelle demande</a>
-
+        <a href="{{ path('advice_new') }}">Ajouter une nouvelle demande</a>
+    </div>
 {% endblock %}
